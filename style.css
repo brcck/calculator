@@ -1,0 +1,50 @@
+.buttons {
+  display: flex;
+  flex-wrap: nowrap;
+  justify-content: flex-start;
+}
+
+.main {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-around;
+}
+
+.main > button {
+  height: 6vh;
+  margin-top: 1vh;
+  width: 12vh;
+}
+
+.operators {
+  display: flex;
+  flex-direction: column;
+  flex-wrap: wrap;
+  justify-content: space-around;
+}
+
+.operators > button {
+  height: 6vh;
+  width: 6vh;
+}
+
+.calculator {
+  background: slategray;
+  left: 50%;
+  height: 55vh;
+  width: 35vw;
+  padding: 5vw;
+  position: absolute;
+  top: 50%;
+  transform: translate(-50%, -50%);
+}
+
+.display {
+  display: block;
+  font-family: monospace;
+  font-size: 3vh;
+  height: 7vh;
+  margin: 3vh auto 3vh;
+  width: 35vw;
+  text-align: right;
+}
