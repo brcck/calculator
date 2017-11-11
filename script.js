@@ -6,6 +6,7 @@ class Calculator {
     this.mode = null;
     this.decimal = {first: false, second: false};
     this.resultDisplayed = false;
+    this.messageDisplayed = false;
   }
 
   set input(input) {
@@ -13,6 +14,8 @@ class Calculator {
       this.first = null;
       this.resultDisplayed = false;
     }
+
+    this.messageDisplayed = false;
 
     input = String(input);
     if (this.mode === null) {
@@ -75,6 +78,10 @@ class Calculator {
     }
   }
 
+  divideByZero() {
+    calculator.first = "oh no you didn't";
+  }
+
   evaluate() {
     if (!this.mode || !this.first || !this.second) return;
     let first = Number(this.first);
@@ -92,14 +99,13 @@ class Calculator {
         break;
       case "divide":
         if (second === 0) {
-          divideByZero();
+          result = "oh no you didn't";
+          this.messageDisplayed = true;
           break;
         }
         result = first / second;
-        result = result.toFixed(6);
         break;
     }
-
     this.first = String(result);
     this.result();
   }
@@ -116,14 +122,6 @@ class Calculator {
     this.mode = null;
     this.resultDisplayed = true;
   }
-}
-
-function del() {
-  if (!calculator.first) return;
-  calculator.mode ?
-    calculator.second = calculator.second.slice(0, -1) :
-    calculator.first = calculator.first.slice(0, -1);
-  updateDisplay();
 }
 
 function calculate() {
@@ -143,8 +141,17 @@ function dot() {
   updateDisplay();
 }
 
-function divideByZero() {
-  // TODO
+function del() {
+  if (!calculator.first) return;
+  if (calculator.resultDisplayed) {
+    calculator.first = null;
+    updateDisplay();
+  }
+
+  calculator.mode ?
+    calculator.second = calculator.second.slice(0, -1) :
+    calculator.first = calculator.first.slice(0, -1);
+  updateDisplay();
 }
 
 function number(e) {
@@ -152,8 +159,9 @@ function number(e) {
   updateDisplay();
 }
 
+// TODO: fix switching between modes
 function switchMode(e) {
-  if (calculator.first === null) return;
+  if (calculator.first === null || calculator.messageDisplayed) return;
   calculator.resultDisplayed = false;
   calculator.mode = e.currentTarget.id;
   updateDisplay();
@@ -174,8 +182,7 @@ for (let i = 0; i < main.length; i++) {
   if (!isNaN(main[i].id)) main[i].addEventListener("click", number);
 }
 
-// i = 1 to skip the clear button.
-for (let i = 1; i < operators.length; i++) {
+for (let i = 0; i < operators.length; i++) {
   operators[i].addEventListener("click", switchMode); // button id = function
 }
 
