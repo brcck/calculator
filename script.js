@@ -51,7 +51,8 @@ class Display {
 }
 
 function switchMode(e) {
-
+  display.mode = e.currentTarget.id;
+  output.value = display.value;
 }
 
 function calculate(mode) {
