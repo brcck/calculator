@@ -96,13 +96,34 @@ class Calculator {
           break;
         }
         result = first / second;
+        result = result.toFixed(6);
         break;
     }
-    this.first = result;
+
+    this.first = String(result);
+    this.result();
+  }
+
+  result() {
+    if (this.first.indexOf(".") === -1) {
+      this.decimal.first = false;
+    } else {
+      this.decimal.first = true;
+    }
+
+    this.decimal.second = false;
     this.second = null;
     this.mode = null;
     this.resultDisplayed = true;
   }
+}
+
+function del() {
+  if (!calculator.first) return;
+  calculator.mode ?
+    calculator.second = calculator.second.slice(0, -1) :
+    calculator.first = calculator.first.slice(0, -1);
+  updateDisplay();
 }
 
 function calculate() {
@@ -159,5 +180,6 @@ for (let i = 1; i < operators.length; i++) {
 }
 
 document.querySelector("#clear").addEventListener("click", clear);
+document.querySelector("#del").addEventListener("click", del);
 document.querySelector("#dot").addEventListener("click", dot);
 document.querySelector("#equals").addEventListener("click", calculate);
