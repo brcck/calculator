@@ -1,4 +1,4 @@
-class Display {
+class Calculator {
 
   constructor() {
     this.first = null;
@@ -7,14 +7,17 @@ class Display {
   }
 
   set input(input) {
+    input = String(input);
     if (this.mode === null) {
       this.first === null ?
         this.first = input :
         this.first += input;
+      this.first = Number(this.first);
     } else if (this.mode !== null) {
       this.second === null ?
         this.second = input :
         this.second += input;
+      this.second = Number(this.second);
     }
   }
 
@@ -48,56 +51,60 @@ class Display {
     }
     return value;
   }
-}
 
-function switchMode(e) {
-  display.mode = e.currentTarget.id;
-  output.value = display.value;
-}
-
-function calculate(mode) {
-  if (mode === null) return;
-  switch (mode) {
-    case "add":
-      display.value = add(first, second);
-      break;
-    case "subtract":
-      display.value = subtract(first, second);
-      break;
-    case "multiply":
-      display.value = multiply(first, second);
-      break;
-    case "divide":
-      display.value = divide(first, second);
-      break;
+  evaluate() {
+    if (!this.mode || !this.first || !this.second) return;
+    let result;
+    switch (this.mode) {
+      case "add":
+        result = this.first + this.second;
+        break;
+      case "subtract":
+        result = this.first - this.second;
+        break;
+      case "multiply":
+        result = this.first * this.second;
+        break;
+      case "divide":
+        result = this.first / this.second;
+        break;
+    }
+    this.first = result;
+    this.second = null;
+    this.mode = null;
   }
 }
 
-function add(a, b) {
-  return a + b;
+function calculate() {
+  calculator.evaluate();
+  updateDisplay();
 }
 
-function subtract(a, b) {
-  return a - b;
-}
-
-function multiply(a, b) {
-  return a * b;
-}
-
-function divide(a, b) {
-  return a / b;
+function clear() {
+  calculator.first = null;
+  calculator.second = null;
+  calculator.mode = null;
+  updateDisplay();
 }
 
 function number(e) {
-  display.input = e.currentTarget.id;
-  output.value = display.value;
+  calculator.input = Number(e.currentTarget.id);
+  updateDisplay();
+}
+
+function switchMode(e) {
+  calculator.mode = e.currentTarget.id;
+  updateDisplay();
+}
+
+function updateDisplay() {
+  display.value = calculator.value;
 }
 
 let main = [...document.querySelectorAll(".main > button")];
 let operators = [...document.querySelectorAll(".operators > button")];
-let output = document.querySelector(".display");
-let display = new Display();
+let display = document.querySelector(".display");
+let calculator = new Calculator();
 
 
 
@@ -105,9 +112,11 @@ for (let i = 0; i < main.length; i++) {
   if (!isNaN(main[i].id)) main[i].addEventListener("click", number);
 }
 
-for (let i = 0; i < operators.length; i++) {
+// i = 1 to skip the clear button.
+for (let i = 1; i < operators.length; i++) {
   operators[i].addEventListener("click", switchMode); // button id = function
 }
 
+document.querySelector("#clear").addEventListener("click", clear);
 document.querySelector("#dot").addEventListener("click", number);
 document.querySelector("#equals").addEventListener("click", calculate);
