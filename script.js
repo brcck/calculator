@@ -6,35 +6,47 @@ class Display {
     this.mode = null;
   }
 
+  set input(input) {
+    if (this.mode === null) {
+      this.first === null ?
+        this.first = input :
+        this.first += input;
+    } else if (this.mode !== null) {
+      this.second === null ?
+        this.second = input :
+        this.second += input;
+    }
+  }
+
   get symbol() {
     if (!this.mode) return;
 
     switch (this.mode) {
       case "add":
-        return "+";
+        return " + ";
       case "subtract":
-        return "-";
+        return " - ";
       case "multiply":
-        return "×";
+        return " × ";
       case "divide":
-        return "÷";
+        return " ÷ ";
     }
   }
 
-  get readout() {
-    let readout;
+  get value() {
+    let value;
     if (!this.first) {
       return "0";
     } else {
-      readout = String(this.first);
+      value = String(this.first);
       if (this.mode) {
-        readout += this.symbol;
+        value += this.symbol;
         if (this.second) {
-          readout += String(this.second);
+          value += String(this.second);
         }
       }
     }
-    return readout;
+    return value;
   }
 }
 
@@ -77,26 +89,16 @@ function divide(a, b) {
 }
 
 function number(e) {
-  display.value === "0" ?
-    display.value = e.currentTarget.id :
-    display.value += e.currentTarget.id;
-  if (mode === null) {
-    first === null ?
-      first = e.currentTarget.id :
-      first += e.currentTarget.id;
-  } else if (mode !== null) {
-    second === null ?
-      second = e.currentTarget.id :
-      second += e.currentTarget.id;
-  }
+  display.input = e.currentTarget.id;
+  output.value = display.value;
 }
 
 let main = [...document.querySelectorAll(".main > button")];
 let operators = [...document.querySelectorAll(".operators > button")];
-let display = document.querySelector(".display");
-let mode = null;
-let first = null;
-let second = null;
+let output = document.querySelector(".display");
+let display = new Display();
+
+
 
 for (let i = 0; i < main.length; i++) {
   if (!isNaN(main[i].id)) main[i].addEventListener("click", number);
