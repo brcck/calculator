@@ -1,3 +1,43 @@
+class Display {
+
+  constructor() {
+    this.first = null;
+    this.second = null;
+    this.mode = null;
+  }
+
+  get symbol() {
+    if (!this.mode) return;
+
+    switch (this.mode) {
+      case "add":
+        return "+";
+      case "subtract":
+        return "-";
+      case "multiply":
+        return "×";
+      case "divide":
+        return "÷";
+    }
+  }
+
+  get readout() {
+    let readout;
+    if (!this.first) {
+      return "0";
+    } else {
+      readout = String(this.first);
+      if (this.mode) {
+        readout += this.symbol;
+        if (this.second) {
+          readout += String(this.second);
+        }
+      }
+    }
+    return readout;
+  }
+}
+
 function switchMode(e) {
 
 }
