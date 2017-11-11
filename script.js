@@ -4,20 +4,25 @@ class Calculator {
     this.first = null;
     this.second = null;
     this.mode = null;
+    this.decimal = {first: false, second: false};
+    this.resultDisplayed = false;
   }
 
   set input(input) {
+    if (this.resultDisplayed) {
+      this.first = null;
+      this.resultDisplayed = false;
+    }
+
     input = String(input);
     if (this.mode === null) {
       this.first === null ?
         this.first = input :
         this.first += input;
-      this.first = Number(this.first);
     } else if (this.mode !== null) {
       this.second === null ?
         this.second = input :
         this.second += input;
-      this.second = Number(this.second);
     }
   }
 
@@ -41,37 +46,62 @@ class Calculator {
     if (!this.first) {
       return "0";
     } else {
-      value = String(this.first);
+      value = this.first;
       if (this.mode) {
         value += this.symbol;
         if (this.second) {
-          value += String(this.second);
+          value += this.second;
         }
       }
     }
     return value;
   }
 
+  addDecimal() {
+    if (!this.mode && !this.decimal.first) {
+      this.decimal.first = true;
+      if (this.first === null) {
+        this.first = "0.";
+      } else {
+        this.first += ".";
+      }
+    } else if (this.mode && !this.decimal.second) {
+      this.decimal.second = true;
+      if (this.second === null) {
+        this.second = "0.";
+      } else {
+        this.second += ".";
+      }
+    }
+  }
+
   evaluate() {
     if (!this.mode || !this.first || !this.second) return;
+    let first = Number(this.first);
+    let second = Number(this.second);
     let result;
     switch (this.mode) {
       case "add":
-        result = this.first + this.second;
+        result = first + second;
         break;
       case "subtract":
-        result = this.first - this.second;
+        result = first - second;
         break;
       case "multiply":
-        result = this.first * this.second;
+        result = first * second;
         break;
       case "divide":
-        result = this.first / this.second;
+        if (second === 0) {
+          divideByZero();
+          break;
+        }
+        result = first / second;
         break;
     }
     this.first = result;
     this.second = null;
     this.mode = null;
+    this.resultDisplayed = true;
   }
 }
 
@@ -87,12 +117,23 @@ function clear() {
   updateDisplay();
 }
 
+function dot() {
+  calculator.addDecimal();
+  updateDisplay();
+}
+
+function divideByZero() {
+  // TODO
+}
+
 function number(e) {
   calculator.input = Number(e.currentTarget.id);
   updateDisplay();
 }
 
 function switchMode(e) {
+  if (calculator.first === null) return;
+  calculator.resultDisplayed = false;
   calculator.mode = e.currentTarget.id;
   updateDisplay();
 }
@@ -118,5 +159,5 @@ for (let i = 1; i < operators.length; i++) {
 }
 
 document.querySelector("#clear").addEventListener("click", clear);
-document.querySelector("#dot").addEventListener("click", number);
+document.querySelector("#dot").addEventListener("click", dot);
 document.querySelector("#equals").addEventListener("click", calculate);
