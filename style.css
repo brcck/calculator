@@ -9,7 +9,17 @@ button {
   font-family: monospace;
   height: 40px;
   margin: 4px 4px;
+  transition: all 0.15s;
   width: 90px;
+}
+
+button:active {
+  background: gainsboro;
+  border-color: silver;
+}
+
+button:focus {
+  outline: none;
 }
 
 .buttons {
@@ -40,6 +50,11 @@ button {
   color: white;
 }
 
+#equals:active {
+  background: royalblue;
+  border-color: darkblue;
+}
+
 .inputButton {
   position: absolute;
 }
@@ -63,6 +78,11 @@ button {
   border: 1px solid silver;
   font-size: 18px;
   font-weight: lighter;
+}
+
+.operators > button:active {
+  background: silver;
+  border-color: darkgray;
 }
 
 .calculator {
