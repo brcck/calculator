@@ -1,7 +1,47 @@
+body {
+  background: whitesmoke;
+}
+
+button {
+  background: whitesmoke;
+  border: 1px solid lightgray;
+  border-radius: 2px;
+  font-family: monospace;
+  height: 40px;
+  margin: 4px 4px;
+  width: 90px;
+}
+
 .buttons {
   display: flex;
   flex-wrap: nowrap;
   justify-content: flex-start;
+}
+
+#del {
+  font-size: 19px;
+  font-weight: 100;
+  left: 65px;
+  position: absolute;
+  width: 25px;
+  top: 63px;
+}
+
+#clear {
+  left: 35px;
+  position: absolute;
+  width: 25px;
+  top: 63px;
+}
+
+#equals {
+  background: dodgerblue;
+  border-color: royalblue;
+  color: white;
+}
+
+.inputButton {
+  position: absolute;
 }
 
 .main {
@@ -10,41 +50,51 @@
   justify-content: space-around;
 }
 
-.main > button {
-  height: 6vh;
-  margin-top: 1vh;
-  width: 12vh;
-}
-
 .operators {
   display: flex;
   flex-direction: column;
   flex-wrap: wrap;
   justify-content: space-around;
+  margin-left: 5px;
 }
 
 .operators > button {
-  height: 6vh;
-  width: 6vh;
+  background: gainsboro;
+  border: 1px solid silver;
+  font-size: 18px;
+  font-weight: lighter;
 }
 
 .calculator {
-  background: slategray;
+  background: white;
+  box-shadow: 0 3px 3px lightgray;
+  border: 1px solid lightgray;
+  border-radius: 10px;
   left: 50%;
-  height: 55vh;
-  width: 35vw;
-  padding: 5vw;
+  height: 330px;
+  width: 400px;
+  padding: 3vh 2vw;
   position: absolute;
   top: 50%;
   transform: translate(-50%, -50%);
 }
 
 .display {
+  border: 1px solid lightgray;
+  border-top-width: 2px;
+  border-radius: 1px;
+  box-sizing: border-box;
   display: block;
   font-family: monospace;
-  font-size: 3vh;
-  height: 7vh;
+  font-size: 32px;
+  height: 60px;
   margin: 3vh auto 3vh;
-  width: 35vw;
+  padding-left: 65px;
+  padding-right: 20px;
+  width: 400px;
   text-align: right;
+}
+
+.display:disabled {
+  background: white;
 }
